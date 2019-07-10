@@ -15,6 +15,6 @@
     <string name="less">-</string>
     <string name="multiplication">*</string>
     <string name="division">/</string>
-    <string name="comma">,</string>
+    <string name="erase">CE</string>
     <string name="equals">=</string>
 </resources>
