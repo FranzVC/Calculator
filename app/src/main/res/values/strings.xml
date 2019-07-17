@@ -15,6 +15,17 @@
     <string name="less">-</string>
     <string name="multiplication">*</string>
     <string name="division">/</string>
-    <string name="erase">CE</string>
+    <string name="eraseAll">CE</string>
+    <string name="erase">C</string>
+    <string name="point">.</string>
     <string name="equals">=</string>
+    <string name="parenthesisOpen">(</string>
+    <string name="parenthesisClose">)</string>
+    <string name="modeBasic">Basic</string>
+    <string name="modeAdvanced">Advanced</string>
+    <string name="sin">sin</string>
+    <string name="cos">cos</string>
+    <string name="exponent">exp</string>
+    <string name="PI">PI</string>
+
 </resources>
