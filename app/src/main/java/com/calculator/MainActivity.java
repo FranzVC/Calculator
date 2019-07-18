@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private static int LEFT_DIRECTION = -1;
     private int ACTIVITY2 = 123;
 
+    private static String syntaxError = "Syntax Error";
     String result = "";
     String values = "";
 
@@ -262,7 +263,6 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, AdvancedCalcActivity.class);
                     switch_mode.setText(R.string.modeAdvanced);
                     startActivityForResult(intent,ACTIVITY2);
-                    finish();
                 }
             }
         });
@@ -312,7 +312,7 @@ public class MainActivity extends AppCompatActivity {
         if (-1 != (pos = expression.indexOf("("))) {
 
             String subexp = extractExpressionFromBraces(expression, pos);
-            if (subexp.equals(String.valueOf(R.string.error)))
+            if (subexp.equals(String.valueOf(syntaxError)))
                 return subexp;
 
             expression = expression.replace("(" + subexp + ")", calc(subexp));
@@ -321,31 +321,6 @@ public class MainActivity extends AppCompatActivity {
 
             //Three states for calculating sin cos exp
             //input must be like sin0.7
-        } else if (-1 != (pos = expression.indexOf("sin"))) {
-            pos += 2;//shift index to last symbol of "sin" instead of first
-            String number = extractNumber(expression, pos, RIGHT_DIRECTION);
-            expression = expression.replace("sin" + number,
-                    Double.toString(Math.sin(Double.parseDouble(number))));
-
-            return calc(expression);
-
-        } else if (-1 != (pos = expression.indexOf("cos"))) {
-            pos += 2;
-            String number = extractNumber(expression, pos, RIGHT_DIRECTION);
-            expression = expression.replace("cos" + number,
-                    Double.toString(Math.cos(Double.parseDouble(number))));
-
-            return calc(expression);
-
-        } else if (-1 != (pos = expression.indexOf("exp"))) {
-
-            pos += 2;
-            String number = extractNumber(expression, pos, RIGHT_DIRECTION);
-            expression = expression.replace("exp" + number,
-                    Double.toString(Math.exp(Double.parseDouble(number))));
-
-            return calc(expression);
-
         } else if (expression.indexOf("*") > 0 | expression.indexOf("/") > 0) {
 
             int multPos = expression.indexOf("*");
@@ -361,8 +336,8 @@ public class MainActivity extends AppCompatActivity {
 
             String leftNum = extractNumber(expression, pos, LEFT_DIRECTION);
             String rightNum = extractNumber(expression, pos, RIGHT_DIRECTION);
-            if (leftNum.equals(String.valueOf(R.string.error)) || rightNum.equals(String.valueOf(R.string.error))) {
-                return String.valueOf(R.string.error);
+            if (leftNum.equals(String.valueOf(syntaxError)) || rightNum.equals(String.valueOf(syntaxError))) {
+                return String.valueOf(syntaxError);
             }
 
             expression = expression.replace(leftNum + divider + rightNum,
@@ -435,7 +410,7 @@ public class MainActivity extends AppCompatActivity {
             if (braceDepth > 0) subExp += expression.charAt(i);
             if (braceDepth == 0 && !subExp.equals("")) return subExp;
         }
-        return String.valueOf(R.string.error);
+        return String.valueOf(syntaxError);
     }
 
     private static String extractNumber(String expression, int pos, int direction) {
@@ -458,7 +433,7 @@ public class MainActivity extends AppCompatActivity {
 
             return resultNumber;
         }
-        return String.valueOf(R.string.error);
+        return String.valueOf(syntaxError);
     }
 
     private static String calcShortExpr(String leftNum, String rightNum, char divider) {
@@ -481,9 +456,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static String prepareExpression(String expression) {
-        expression = expression.replace("PI", Double.toString(Math.PI));
-        expression = expression.replace("E", Double.toString(Math.E));
-        expression = expression.replace(" ", "");
         expression = expression.replace("+-","-");
         expression = expression.replace("-+","-");
         expression = expression.replace("/*","/");
@@ -493,11 +465,6 @@ public class MainActivity extends AppCompatActivity {
         expression = expression.replace("-.","-0.");
         expression = expression.replace("*.","*0.");
         expression = expression.replace("/.","/0.");
-        expression = expression.replace("sin.","sin0.");
-        expression = expression.replace("cos.","cos0.");
-        expression = expression.replace("exp.","exp0.");
-
-
         return expression;
     }
 

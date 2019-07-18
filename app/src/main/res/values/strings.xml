@@ -27,6 +27,4 @@
     <string name="cos">cos</string>
     <string name="exponent">exp</string>
     <string name="PI">PI</string>
-    <string name="error">Syntax Error</string>
-
 </resources>

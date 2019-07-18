@@ -19,6 +19,7 @@ public class AdvancedCalcActivity extends AppCompatActivity {
     private static int RIGHT_DIRECTION = 1;
     private static int LEFT_DIRECTION = -1;
 
+    private static String syntaxError = "Syntax Error";
     private String result = "";
     private String values = "";
 
@@ -309,7 +310,8 @@ public class AdvancedCalcActivity extends AppCompatActivity {
         if (-1 != (pos = expression.indexOf("("))) {
 
             String subexp = extractExpressionFromBraces(expression, pos);
-            if (subexp.equals(String.valueOf(R.string.error)))
+            if (subexp.equals(syntaxError))
+
                 return subexp;
 
             expression = expression.replace("(" + subexp + ")", calc(subexp));
@@ -358,8 +360,8 @@ public class AdvancedCalcActivity extends AppCompatActivity {
 
             String leftNum = extractNumber(expression, pos, LEFT_DIRECTION);
             String rightNum = extractNumber(expression, pos, RIGHT_DIRECTION);
-            if (leftNum.equals(String.valueOf(R.string.error)) || rightNum.equals(String.valueOf(R.string.error))) {
-                return String.valueOf(R.string.error);
+            if (leftNum.equals(String.valueOf(syntaxError)) || rightNum.equals(String.valueOf(syntaxError))) {
+                return String.valueOf(syntaxError);
             }
 
             expression = expression.replace(leftNum + divider + rightNum,
@@ -432,7 +434,7 @@ public class AdvancedCalcActivity extends AppCompatActivity {
             if (braceDepth > 0) subExp += expression.charAt(i);
             if (braceDepth == 0 && !subExp.equals("")) return subExp;
         }
-        return String.valueOf(R.string.error);
+        return String.valueOf(syntaxError);
     }
 
     private static String extractNumber(String expression, int pos, int direction) {
@@ -455,7 +457,7 @@ public class AdvancedCalcActivity extends AppCompatActivity {
 
             return resultNumber;
         }
-        return String.valueOf(R.string.error);
+        return syntaxError;
     }
 
     private static String calcShortExpr(String leftNum, String rightNum, char divider) {
@@ -483,8 +485,6 @@ public class AdvancedCalcActivity extends AppCompatActivity {
         expression = expression.replace(" ", "");
         expression = expression.replace("+-","-");
         expression = expression.replace("-+","-");
-        expression = expression.replace("/*","/");
-        expression = expression.replace("*/","-*");
 
         expression = expression.replace("+.","+0.");
         expression = expression.replace("-.","-0.");
