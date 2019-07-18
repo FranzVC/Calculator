@@ -1,5 +1,6 @@
 package com.calculator;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
             (Arrays.asList('*', '/', '-', '+'));
     private static int RIGHT_DIRECTION = 1;
     private static int LEFT_DIRECTION = -1;
+    private int ACTIVITY2 = 123;
 
     String result = "";
     String values = "";
@@ -259,12 +261,23 @@ public class MainActivity extends AppCompatActivity {
                 if (switch_mode.isChecked()) {
                     Intent intent = new Intent(MainActivity.this, AdvancedCalcActivity.class);
                     switch_mode.setText(R.string.modeAdvanced);
-                    startActivity(intent);
-                } else {
-                    switch_mode.setText(R.string.modeBasic);
+                    startActivityForResult(intent,ACTIVITY2);
+                    finish();
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == ACTIVITY2) {
+            if(resultCode == RESULT_OK) {
+                switch_mode.setChecked(false);
+                switch_mode.setText(R.string.modeBasic);
+            }
+        }
     }
 
     @Override
@@ -292,13 +305,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static String calc(String expression) {
+        expression = prepareExpression(expression);
         int pos = 0;
         //Extracting expression from braces, doing recursive call
         //replace braced expression on result of it solving
         if (-1 != (pos = expression.indexOf("("))) {
 
             String subexp = extractExpressionFromBraces(expression, pos);
-            if (subexp.equals("Failure!"))
+            if (subexp.equals(String.valueOf(R.string.error)))
                 return subexp;
 
             expression = expression.replace("(" + subexp + ")", calc(subexp));
@@ -347,8 +361,8 @@ public class MainActivity extends AppCompatActivity {
 
             String leftNum = extractNumber(expression, pos, LEFT_DIRECTION);
             String rightNum = extractNumber(expression, pos, RIGHT_DIRECTION);
-            if (leftNum.equals("Failure!") || rightNum.equals("Failure!")) {
-                return "Failure!";
+            if (leftNum.equals(String.valueOf(R.string.error)) || rightNum.equals(String.valueOf(R.string.error))) {
+                return String.valueOf(R.string.error);
             }
 
             expression = expression.replace(leftNum + divider + rightNum,
@@ -356,14 +370,10 @@ public class MainActivity extends AppCompatActivity {
 
             return calc(expression);
 
-        } else if (expression.indexOf("+") > 0 | expression.indexOf("-", 1) > 0) {
-            int sumPos = expression.indexOf("+");
-            int minusPos = expression.indexOf("-");
+        } else if (expression.indexOf("-", 1) > 0) {
 
-            pos = Math.min(sumPos, minusPos);
 
-            if (sumPos < 0) pos = minusPos;
-            else if (minusPos < 0) pos = sumPos;
+            pos = expression.indexOf("-", 1);
 
             char divider = expression.charAt(pos);
 
@@ -383,7 +393,28 @@ public class MainActivity extends AppCompatActivity {
                         calcShortExpr(leftNum, rightNum, divider));
             }
             return calc(expression);
-        } else return expression;
+        }
+        else if (expression.indexOf("+") > 0 ) {
+            pos = expression.indexOf("+");
+            char divider = expression.charAt(pos);
+
+            //first expression number negative
+            if (expression.charAt(0) == '-') {
+                String numberLeft = extractNumber(expression, 0, RIGHT_DIRECTION);
+                int operatorPosition = numberLeft.length() + 1;
+                String numberRight = extractNumber(expression, operatorPosition, RIGHT_DIRECTION);
+                char operation = expression.charAt(operatorPosition);
+
+                expression = expression.replace("-" + numberLeft + operation + numberRight,
+                        addition(expression, operatorPosition, numberLeft, numberRight));
+            } else {
+                String leftNum = extractNumber(expression, pos, LEFT_DIRECTION);
+                String rightNum = extractNumber(expression, pos, RIGHT_DIRECTION);
+                expression = expression.replace(leftNum + divider + rightNum,
+                        calcShortExpr(leftNum, rightNum, divider));
+            }
+            return calc(expression);
+        }else return expression;
     }
 
     private static String extractExpressionFromBraces(String expression, int pos) {
@@ -404,7 +435,7 @@ public class MainActivity extends AppCompatActivity {
             if (braceDepth > 0) subExp += expression.charAt(i);
             if (braceDepth == 0 && !subExp.equals("")) return subExp;
         }
-        return "Failure!";
+        return String.valueOf(R.string.error);
     }
 
     private static String extractNumber(String expression, int pos, int direction) {
@@ -427,7 +458,7 @@ public class MainActivity extends AppCompatActivity {
 
             return resultNumber;
         }
-        return "Failure!";
+        return String.valueOf(R.string.error);
     }
 
     private static String calcShortExpr(String leftNum, String rightNum, char divider) {
@@ -453,6 +484,19 @@ public class MainActivity extends AppCompatActivity {
         expression = expression.replace("PI", Double.toString(Math.PI));
         expression = expression.replace("E", Double.toString(Math.E));
         expression = expression.replace(" ", "");
+        expression = expression.replace("+-","-");
+        expression = expression.replace("-+","-");
+        expression = expression.replace("/*","/");
+        expression = expression.replace("*/","-*");
+
+        expression = expression.replace("+.","+0.");
+        expression = expression.replace("-.","-0.");
+        expression = expression.replace("*.","*0.");
+        expression = expression.replace("/.","/0.");
+        expression = expression.replace("sin.","sin0.");
+        expression = expression.replace("cos.","cos0.");
+        expression = expression.replace("exp.","exp0.");
+
 
         return expression;
     }

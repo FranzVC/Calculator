@@ -19,8 +19,8 @@ public class AdvancedCalcActivity extends AppCompatActivity {
     private static int RIGHT_DIRECTION = 1;
     private static int LEFT_DIRECTION = -1;
 
-    double result = 0;
-    String values = "";
+    private String result = "";
+    private String values = "";
 
     TextView label_values_adv;
     TextView label_result_adv;
@@ -170,10 +170,10 @@ public class AdvancedCalcActivity extends AppCompatActivity {
         btn_equals_adv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                result = 0;
+                result = "";
                 if (!values.isEmpty()) {
                     values = prepareExpression(values);
-                    result = Double.valueOf(calc(values));
+                    result = calc(values);
                 }
                 label_result_adv.setText(String.valueOf(result));
             }
@@ -249,7 +249,7 @@ public class AdvancedCalcActivity extends AppCompatActivity {
                 if (!values.isEmpty()) {
                     values = values.substring(0, values.length() - 1);
                     label_values_adv.setText(values);
-                    result = 0;
+                    result = "";
                 }
             }
         });
@@ -258,7 +258,7 @@ public class AdvancedCalcActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 values = "";
-                result = 0.0;
+                result = "";
                 label_values_adv.setText(values);
                 label_result_adv.setText(String.valueOf(result));
             }
@@ -291,23 +291,27 @@ public class AdvancedCalcActivity extends AppCompatActivity {
         switch_mode_adv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (switch_mode_adv.isChecked()) {
-                    switch_mode_adv.setText(R.string.modeAdvanced);
-                } else {
+                if (!switch_mode_adv.isChecked()){
                     Intent intent = new Intent();
                     switch_mode_adv.setText(R.string.modeBasic);
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
             }
         });
     }
 
     private static String calc(String expression) {
+        expression = prepareExpression(expression);
         int pos = 0;
         //Extracting expression from braces, doing recursive call
         //replace braced expression on result of it solving
         if (-1 != (pos = expression.indexOf("("))) {
 
             String subexp = extractExpressionFromBraces(expression, pos);
+            if (subexp.equals(String.valueOf(R.string.error)))
+                return subexp;
+
             expression = expression.replace("(" + subexp + ")", calc(subexp));
 
             return calc(expression);
@@ -318,8 +322,7 @@ public class AdvancedCalcActivity extends AppCompatActivity {
             pos += 2;//shift index to last symbol of "sin" instead of first
             String number = extractNumber(expression, pos, RIGHT_DIRECTION);
             expression = expression.replace("sin" + number,
-                    Double.toString(Math.sin(Math.toRadians(Double.parseDouble(number)))));
-            System.out.println(Math.cos(90));
+                    Double.toString(Math.sin(Double.parseDouble(number))));
 
             return calc(expression);
 
@@ -327,7 +330,7 @@ public class AdvancedCalcActivity extends AppCompatActivity {
             pos += 2;
             String number = extractNumber(expression, pos, RIGHT_DIRECTION);
             expression = expression.replace("cos" + number,
-                    Double.toString(Math.cos(Math.toRadians(Double.parseDouble(number)))));
+                    Double.toString(Math.cos(Double.parseDouble(number))));
 
             return calc(expression);
 
@@ -355,75 +358,104 @@ public class AdvancedCalcActivity extends AppCompatActivity {
 
             String leftNum = extractNumber(expression, pos, LEFT_DIRECTION);
             String rightNum = extractNumber(expression, pos, RIGHT_DIRECTION);
+            if (leftNum.equals(String.valueOf(R.string.error)) || rightNum.equals(String.valueOf(R.string.error))) {
+                return String.valueOf(R.string.error);
+            }
 
             expression = expression.replace(leftNum + divider + rightNum,
                     calcShortExpr(leftNum, rightNum, divider));
 
             return calc(expression);
 
-        } else if (expression.indexOf("+") > 0 | expression.indexOf("-") > 0) {
-            int sumPos = expression.indexOf("+");
-            int minusPos = expression.indexOf("-");
+        } else if (expression.indexOf("-", 1) > 0) {
 
-            pos = Math.min(sumPos, minusPos);
 
-            if (sumPos < 0) pos = minusPos;
-            else if (minusPos < 0) pos = sumPos;
+            pos = expression.indexOf("-", 1);
 
             char divider = expression.charAt(pos);
 
-            String leftNum = extractNumber(expression, pos, LEFT_DIRECTION);
-            String rightNum = extractNumber(expression, pos, RIGHT_DIRECTION);
+            //first expression number negative
+            if (expression.charAt(0) == '-') {
+                String numberLeft = extractNumber(expression, 0, RIGHT_DIRECTION);
+                int operatorPosition = numberLeft.length() + 1;
+                String numberRight = extractNumber(expression, operatorPosition, RIGHT_DIRECTION);
+                char operation = expression.charAt(operatorPosition);
 
-            expression = expression.replace(leftNum + divider + rightNum,
-                    calcShortExpr(leftNum, rightNum, divider));
-
+                expression = expression.replace("-" + numberLeft + operation + numberRight,
+                        addition(expression, operatorPosition, numberLeft, numberRight));
+            } else {
+                String leftNum = extractNumber(expression, pos, LEFT_DIRECTION);
+                String rightNum = extractNumber(expression, pos, RIGHT_DIRECTION);
+                expression = expression.replace(leftNum + divider + rightNum,
+                        calcShortExpr(leftNum, rightNum, divider));
+            }
             return calc(expression);
-        } else return expression;
+        }
+        else if (expression.indexOf("+") > 0 ) {
+            pos = expression.indexOf("+");
+            char divider = expression.charAt(pos);
+
+            //first expression number negative
+            if (expression.charAt(0) == '-') {
+                String numberLeft = extractNumber(expression, 0, RIGHT_DIRECTION);
+                int operatorPosition = numberLeft.length() + 1;
+                String numberRight = extractNumber(expression, operatorPosition, RIGHT_DIRECTION);
+                char operation = expression.charAt(operatorPosition);
+
+                expression = expression.replace("-" + numberLeft + operation + numberRight,
+                        addition(expression, operatorPosition, numberLeft, numberRight));
+            } else {
+                String leftNum = extractNumber(expression, pos, LEFT_DIRECTION);
+                String rightNum = extractNumber(expression, pos, RIGHT_DIRECTION);
+                expression = expression.replace(leftNum + divider + rightNum,
+                        calcShortExpr(leftNum, rightNum, divider));
+            }
+            return calc(expression);
+        }else return expression;
     }
 
     private static String extractExpressionFromBraces(String expression, int pos) {
         int braceDepth = 1;
-        String subexp = "";
+        String subExp = "";
 
         for (int i = pos + 1; i < expression.length(); i++) {
             switch (expression.charAt(i)) {
                 case '(':
                     braceDepth++;
-                    subexp += "(";
+                    subExp += "(";
                     break;
                 case ')':
                     braceDepth--;
-                    if (braceDepth != 0) subexp += ")";
+                    if (braceDepth != 0) subExp += ")";
                     break;
-                default:
-                    if (braceDepth > 0) subexp += expression.charAt(i);
-
             }
-            if (braceDepth == 0 && !subexp.equals("")) return subexp;
+            if (braceDepth > 0) subExp += expression.charAt(i);
+            if (braceDepth == 0 && !subExp.equals("")) return subExp;
         }
-        //if (braceDepth > 0)
-            return "Failure!";
+        return String.valueOf(R.string.error);
     }
 
     private static String extractNumber(String expression, int pos, int direction) {
         String resultNumber = "";
         int currPos = pos + direction;//shift pos on next symbol from divider
 
-        //For negative numbers
-        if (expression.charAt(currPos) == '-') {
-            resultNumber += expression.charAt(currPos);
-            currPos += direction;
+        if (currPos < expression.length() && currPos >= 0) {
+            //For negative numbers
+            if (expression.charAt(currPos) == '-') {
+                resultNumber += expression.charAt(currPos);
+                currPos += direction;
+            }
+
+            for (; currPos >= 0 && currPos < expression.length() && !OPERATORS.contains(expression.charAt(currPos)); currPos += direction) {
+                resultNumber += expression.charAt(currPos);
+            }
+
+            if (direction == LEFT_DIRECTION) resultNumber = new
+                    StringBuilder(resultNumber).reverse().toString();
+
+            return resultNumber;
         }
-
-        for (; currPos >= 0 && currPos < expression.length() && !OPERATORS.contains(expression.charAt(currPos)); currPos += direction) {
-            resultNumber += expression.charAt(currPos);
-        }
-
-        if (direction == LEFT_DIRECTION) resultNumber = new
-                StringBuilder(resultNumber).reverse().toString();
-
-        return resultNumber;
+        return String.valueOf(R.string.error);
     }
 
     private static String calcShortExpr(String leftNum, String rightNum, char divider) {
@@ -449,7 +481,30 @@ public class AdvancedCalcActivity extends AppCompatActivity {
         expression = expression.replace("PI", Double.toString(Math.PI));
         expression = expression.replace("E", Double.toString(Math.E));
         expression = expression.replace(" ", "");
+        expression = expression.replace("+-","-");
+        expression = expression.replace("-+","-");
+        expression = expression.replace("/*","/");
+        expression = expression.replace("*/","-*");
+
+        expression = expression.replace("+.","+0.");
+        expression = expression.replace("-.","-0.");
+        expression = expression.replace("*.","*0.");
+        expression = expression.replace("/.","/0.");
+        expression = expression.replace("sin.","sin0.");
+        expression = expression.replace("cos.","cos0.");
+        expression = expression.replace("exp.","exp0.");
+
 
         return expression;
+    }
+
+    private static String addition(String expression, int operatorPosition, String numberLeft, String numberRight) {
+        if (expression.charAt(operatorPosition) == '-') {
+            return "-" + (Double.parseDouble(numberLeft) +
+                    Double.parseDouble(numberRight));
+        } else {
+            return String.valueOf(Double.parseDouble(numberRight) -
+                    Double.parseDouble(numberLeft));
+        }
     }
 }
