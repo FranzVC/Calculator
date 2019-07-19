@@ -29,6 +29,12 @@ public class AdvancedCalcActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advanced_calc);
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         label_values_adv = findViewById(R.id.label_values_adv);
         label_result_adv = findViewById(R.id.label_result_adv);
 

@@ -257,29 +257,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // The activity has become visible (it is now "resumed").
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        // Another activity is taking focus (this activity is about to be "paused").
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        finish();
-        // The activity is no longer visible (it is now "stopped")
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // The activity is about to be destroyed.
-    }
 }
