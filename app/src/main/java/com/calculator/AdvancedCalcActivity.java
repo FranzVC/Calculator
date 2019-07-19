@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.calculator.utilities.Utility;
+
 public class AdvancedCalcActivity extends AppCompatActivity {
     Calculator calculator = new Calculator();
 
@@ -151,7 +153,7 @@ public class AdvancedCalcActivity extends AppCompatActivity {
             public void onClick(View view) {
                 result = "";
                 if (!values.isEmpty()) {
-                    values = calculator.prepareExpression(values);
+                    values = Utility.prepareExpression(values);
                     if (values.contains(syntaxError)) {
                         values = "";
                         label_values_adv.setText(values);

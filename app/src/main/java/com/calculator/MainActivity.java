@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.calculator.utilities.Utility;
+
 public class MainActivity extends AppCompatActivity {
     Calculator calculator = new Calculator();
 
@@ -144,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 result = "";
                 if (!values.isEmpty()) {
-                    values = calculator.prepareExpression(values);
+                    values = Utility.prepareExpression(values);
                     if (values.contains(syntaxError)) {
                         values = "";
                         label_values.setText(values);
@@ -249,7 +251,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == ACTIVITY2) {
             if (resultCode == RESULT_OK) {
                 switch_mode.setChecked(false);
