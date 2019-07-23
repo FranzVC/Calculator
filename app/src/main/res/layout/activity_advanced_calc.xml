@@ -12,43 +12,52 @@
 
     <Switch
         android:id="@+id/switch_mode_adv"
-        android:layout_width="103dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="11dp"
-        android:layout_marginLeft="11dp"
+        android:layout_width="@dimen/switchWidth"
+        android:layout_height="@dimen/switchHeight"
+        android:layout_marginStart="@dimen/labelMarginLeft"
+        android:layout_marginLeft="@dimen/labelMarginLeft"
         android:layout_marginTop="8dp"
         android:checked="true"
         android:gravity="center_vertical"
+        android:onClick="switch_mode_adv"
         android:text="@string/modeAdvanced"
         android:textAlignment="center"
         android:textColor="@color/colorWhite"
         android:textColorHint="@color/colorWhite"
         android:textOff="@string/modeAdvanced"
         android:textOn="@string/modeBasic"
-        android:textSize="12sp"
+        android:textSize="@dimen/switchTextSize"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/label_values_adv"
         android:layout_width="match_parent"
-        android:layout_height="115dp"
+        android:layout_height="@dimen/labelValuesHeight"
+        android:layout_marginLeft="@dimen/labelMarginLeft"
+        android:layout_marginRight="@dimen/labelMarginRight"
         android:gravity="end"
         android:text="@string/nullValue"
         android:textAlignment="textEnd"
         android:textColor="@color/colorWhite"
-        android:textSize="40sp" />
+        android:textSize="@dimen/valuesTextSize"
+        android:layout_marginStart="@dimen/labelMarginLeft"
+        android:layout_marginEnd="@dimen/labelMarginRight" />
 
     <TextView
         android:id="@+id/label_result_adv"
         style="@style/Widget.AppCompat.TextView.SpinnerItem"
         android:layout_width="match_parent"
-        android:layout_height="84dp"
+        android:layout_height="@dimen/labelAdvResultHeight"
+        android:layout_marginLeft="@dimen/labelMarginLeft"
+        android:layout_marginRight="@dimen/labelMarginRight"
         android:gravity="end"
         android:text="@string/nullValue"
         android:textAlignment="textEnd"
         android:textColor="@color/colorWhite"
-        android:textSize="30sp" />
+        android:textSize="@dimen/resultTextSize"
+        android:layout_marginStart="@dimen/labelMarginLeft"
+        android:layout_marginEnd="@dimen/labelMarginRight" />
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/grid_buttons"
@@ -63,244 +72,267 @@
         <Button
             android:id="@+id/btn_point_adv"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_point_adv"
             android:text="@string/point"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="0"
             app:layout_row="5" />
 
         <Button
             android:id="@+id/btn_numberOne_adv"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_number1_adv"
             android:text="@string/numberOne"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="0"
             app:layout_row="2" />
 
         <Button
             android:id="@+id/btn_numberTwo_adv"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_number2_adv"
             android:text="@string/numberTwo"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="1"
             app:layout_row="2" />
 
         <Button
             android:id="@+id/btn_numberThree_adv"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_number3_adv"
             android:text="@string/numberThree"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="2"
             app:layout_row="2" />
 
         <Button
             android:id="@+id/btn_subtraction_adv"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:background="@color/colorAccent"
+            android:onClick="btn_less_adv"
             android:text="@string/less"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="3"
             app:layout_row="2" />
 
         <Button
             android:id="@+id/btn_numberFour_adv"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_number4_adv"
             android:text="@string/numberFour"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="0"
             app:layout_row="3" />
 
         <Button
             android:id="@+id/btn_numberFive_adv"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_number5_adv"
             android:text="@string/numberFive"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="1"
             app:layout_row="3" />
 
         <Button
             android:id="@+id/btn_numberSix_adv"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_number6_adv"
             android:text="@string/numberSix"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="2"
             app:layout_row="3" />
 
         <Button
             android:id="@+id/btn_division_adv"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:background="@color/colorAccent"
+            android:onClick="btn_division_adv"
             android:text="@string/division"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="3"
             app:layout_row="3" />
 
         <Button
             android:id="@+id/btn_numberSeven_adv"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_number7_adv"
             android:text="@string/numberSeven"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="0"
             app:layout_row="4" />
 
         <Button
             android:id="@+id/btn_numberEight_adv"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_number8_adv"
             android:text="@string/numberEight"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="1"
             app:layout_row="4" />
 
         <Button
             android:id="@+id/btn_numberNine_adv"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_number9_adv"
             android:text="@string/numberNine"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="2"
             app:layout_row="4" />
 
         <Button
             android:id="@+id/btn_Pi"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:layout_marginBottom="5dp"
             android:background="@color/colorPrimary"
+            android:onClick="btn_PI"
             android:text="@string/PI"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="3"
             app:layout_row="0" />
 
         <Button
             android:id="@+id/btn_exponent"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:layout_marginBottom="5dp"
             android:background="@color/colorPrimary"
+            android:onClick="btn_exp"
             android:text="@string/exponent"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="2"
             app:layout_row="0" />
 
         <Button
             android:id="@+id/btn_cos"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:layout_marginBottom="5dp"
             android:background="@color/colorPrimary"
+            android:onClick="btn_cos"
             android:text="@string/cos"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="1"
             app:layout_row="0" />
 
         <Button
             android:id="@+id/btn_sin"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:layout_marginBottom="5dp"
             android:background="@color/colorPrimary"
+            android:onClick="btn_sin"
             android:text="@string/sin"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="0"
             app:layout_row="0" />
 
         <Button
             android:id="@+id/btn_multiplication_adv"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:background="@color/colorAccent"
+            android:onClick="btn_multiply_adv"
             android:text="@string/multiplication"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="3"
             app:layout_row="4" />
 
         <Button
             android:id="@+id/btn_equals_adv"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:background="@color/cardview_light_background"
             android:text="@string/equals"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="2"
             app:layout_row="5" />
 
         <Button
             android:id="@+id/btn_addition_adv"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:background="@color/colorAccent"
+            android:onClick="btn_plus_adv"
             android:text="@string/plus"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="3"
             app:layout_row="5" />
 
         <Button
             android:id="@+id/btn_numberZero_adv"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_number0_adv"
             android:text="@string/numberZero"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="1"
             app:layout_row="5" />
 
         <Button
             android:id="@+id/btn_erase_adv"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_eraseAll_adv"
             android:text="@string/erase"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="2"
             app:layout_row="1" />
 
         <Button
             android:id="@+id/btn_eraseAll_adv"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_erase_adv"
             android:text="@string/eraseAll"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="3"
             app:layout_row="1" />
 
         <Button
             android:id="@+id/btn_parenthesisClose_adv"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_parenthesisClose_adv"
             android:text="@string/parenthesisClose"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="1"
             app:layout_row="1" />
 
         <Button
             android:id="@+id/btn_parenthesisOpen_adv"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/btnAdvHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_parenthesisOpen_adv"
             android:text="@string/parenthesisOpen"
-            android:textSize="25sp"
+            android:textSize="@dimen/textSize"
             app:layout_column="0"
             app:layout_row="1" />
 

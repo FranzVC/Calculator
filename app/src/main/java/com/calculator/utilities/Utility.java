@@ -1,5 +1,7 @@
 package com.calculator.utilities;
 
+import com.calculator.R;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -7,19 +9,30 @@ public class Utility {
 
     private static ArrayList<Character> OPERATORS = new ArrayList<>
             (Arrays.asList('*', '/', '-', '+'));
-    public static int RIGHT_DIRECTION = 1;
-    public static int LEFT_DIRECTION = -1;
-    public static String syntaxError = "Syntax Error";
+    public int RIGHT_DIRECTION = 1;
+    public int LEFT_DIRECTION = -1;
+    public String syntaxError = "Syntax Error";
 
-    public static boolean isValidExpression(String expression, String operation) {
+    private static Utility instance = new Utility();
+
+    private Utility(){}
+
+    public static synchronized Utility getInstance() {
+        if(instance == null) {
+            instance = new Utility();
+        }
+        return instance;
+    }
+
+    public boolean isValidExpression(String expression, String operation) {
         return expression.contains(operation);
     }
 
-    public static int getPosition(String expression, String operation) {
+    public int getPosition(String expression, String operation) {
         return expression.indexOf(operation);
     }
 
-    public static String extractExpressionFromBraces(String expression, int pos) {
+    public String extractExpressionFromBraces(String expression, int pos) {
         int braceDepth = 1;
         String subExp = "";
 
@@ -40,7 +53,7 @@ public class Utility {
         return String.valueOf(syntaxError);
     }
 
-    public static String prepareExpression(String expression) {
+    public String prepareExpression(String expression) {
         expression = expression.replace("PI", "("+Double.toString(Math.PI)+")");
         //expression = expression.replace("E", Double.toString(Math.E));
         expression = expression.replace("sin.", "sin0.");
@@ -58,7 +71,7 @@ public class Utility {
         expression = expression.replace("*.", "*0.");
         expression = expression.replace("/.", "/0.");
 
-        if (expression.contains("+*")) {
+        if (expression.contains("+*")){
             return syntaxError;
         }
         if (expression.contains("+/")) {
@@ -85,7 +98,7 @@ public class Utility {
         return expression;
     }
 
-    public static String extractNumber(String expression, int pos, int direction) {
+    public String extractNumber(String expression, int pos, int direction) {
         String resultNumber = "";
         int currPos = pos + direction;
 

@@ -13,12 +13,12 @@ import android.widget.TextView;
 import com.calculator.utilities.Utility;
 
 public class MainActivity extends AppCompatActivity {
-    Calculator calculator = new Calculator();
+
 
     private int ACTIVITY2 = 123;
     private static String syntaxError = "Syntax Error";
-    String result = "";
-    String values = "";
+    private String result = "";
+    private String values = "";
 
     TextView label_values, label_result;
     Button btn_number1, btn_number2, btn_number3, btn_number4, btn_number5, btn_number6, btn_number7, btn_number8, btn_number9, btn_number0;
@@ -35,6 +35,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ACTIVITY2) {
+            if (resultCode == RESULT_OK) {
+                switch_mode.setChecked(false);
+                switch_mode.setText(R.string.modeBasic);
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        final Utility u = Utility.getInstance();
+        final Calculator calculator = new Calculator();
+
         label_values = findViewById(R.id.label_values);
         label_result = findViewById(R.id.label_result);
 
@@ -61,92 +80,12 @@ public class MainActivity extends AppCompatActivity {
         btn_parenthesisClose = findViewById(R.id.btn_parenthesisClose);
         switch_mode = findViewById(R.id.switch_mode);
 
-        btn_number0.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                values = values + "0";
-                label_values.setText(values);
-            }
-        });
-
-        btn_number1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                values = values + "1";
-                label_values.setText(values);
-            }
-        });
-
-        btn_number2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                values = values + "2";
-                label_values.setText(values);
-            }
-        });
-
-        btn_number3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                values = values + "3";
-                label_values.setText(values);
-            }
-        });
-
-        btn_number4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                values = values + "4";
-                label_values.setText(values);
-            }
-        });
-
-        btn_number5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                values = values + "5";
-                label_values.setText(values);
-            }
-        });
-
-        btn_number6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                values = values + "6";
-                label_values.setText(values);
-            }
-        });
-
-        btn_number7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                values = values + "7";
-                label_values.setText(values);
-            }
-        });
-
-        btn_number8.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                values = values + "8";
-                label_values.setText(values);
-            }
-        });
-
-        btn_number9.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                values = values + "9";
-                label_values.setText(values);
-            }
-        });
-
         btn_equals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 result = "";
                 if (!values.isEmpty()) {
-                    values = Utility.prepareExpression(values);
+                    values = u.prepareExpression(values);
                     if (values.contains(syntaxError)) {
                         values = "";
                         label_values.setText(values);
@@ -158,104 +97,113 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        btn_plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                values = values + "+";
-                label_values.setText(values);
-            }
-        });
-
-        btn_less.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                values = values + "-";
-                label_values.setText(values);
-            }
-        });
-
-        btn_multiplication.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                values = values + "*";
-                label_values.setText(values);
-            }
-        });
-
-        btn_division.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                values = values + "/";
-                label_values.setText(values);
-            }
-        });
-
-        btn_erase.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!values.isEmpty()) {
-                    values = values.substring(0, values.length() - 1);
-                    label_values.setText(values);
-                    result = "";
-                }
-            }
-        });
-
-        btn_eraseAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                values = "";
-                result = "";
-                label_values.setText(values);
-                label_result.setText(String.valueOf(result));
-            }
-        });
-
-        btn_point.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                values = values + ".";
-                label_values.setText(values);
-            }
-        });
-
-        btn_parenthesisOpen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                values = values + "(";
-                label_values.setText(values);
-            }
-        });
-
-        btn_parenthesisClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                values = values + ")";
-                label_values.setText(values);
-            }
-        });
-
-        switch_mode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (switch_mode.isChecked()) {
-                    Intent intent = new Intent(MainActivity.this, AdvancedCalcActivity.class);
-                    switch_mode.setText(R.string.modeAdvanced);
-                    startActivityForResult(intent, ACTIVITY2);
-                }
-            }
-        });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ACTIVITY2) {
-            if (resultCode == RESULT_OK) {
-                switch_mode.setChecked(false);
-                switch_mode.setText(R.string.modeBasic);
-            }
+    public void btn_number0(View view) {
+        values = values + "0";
+        label_values.setText(values);
+    }
+
+    public void btn_number1(View view) {
+        values = values + "1";
+        label_values.setText(values);
+    }
+
+    public void btn_number2(View view) {
+        values = values + "2";
+        label_values.setText(values);
+    }
+
+    public void btn_number3(View view) {
+        values = values + "3";
+        label_values.setText(values);
+    }
+
+    public void btn_number4(View view) {
+        values = values + "4";
+        label_values.setText(values);
+    }
+
+    public void btn_number5(View view) {
+        values = values + "5";
+        label_values.setText(values);
+    }
+
+    public void btn_number6(View view) {
+        values = values + "6";
+        label_values.setText(values);
+    }
+
+    public void btn_number7(View view) {
+        values = values + "7";
+        label_values.setText(values);
+    }
+
+    public void btn_number8(View view) {
+        values = values + "8";
+        label_values.setText(values);
+    }
+
+    public void btn_number9(View view) {
+        values = values + "9";
+        label_values.setText(values);
+    }
+
+    public void btn_plus(View view) {
+        values = values + "+";
+        label_values.setText(values);
+    }
+
+    public void btn_less(View view) {
+        values = values + "-";
+        label_values.setText(values);
+    }
+
+    public void btn_multiply(View view) {
+        values = values + "*";
+        label_values.setText(values);
+    }
+
+    public void btn_division(View view) {
+        values = values + "/";
+        label_values.setText(values);
+    }
+
+    public void btn_point(View view) {
+        values = values + ".";
+        label_values.setText(values);
+    }
+
+    public void btn_parenthesisOpen(View view) {
+        values = values + "(";
+        label_values.setText(values);
+    }
+
+    public void btn_parenthesisClose(View view) {
+        values = values + ")";
+        label_values.setText(values);
+    }
+
+    public void btn_eraseAll(View view) {
+        values = "";
+        result = "";
+        label_values.setText(values);
+        label_result.setText(String.valueOf(result));
+    }
+
+    public void btn_erase(View view) {
+        if (!values.isEmpty()) {
+            values = values.substring(0, values.length() - 1);
+            label_values.setText(values);
+            result = "";
+        }
+    }
+
+    public void switch_mode(View view){
+        if (switch_mode.isChecked()) {
+            Intent intent = new Intent(MainActivity.this, AdvancedCalcActivity.class);
+            switch_mode.setText(R.string.modeAdvanced);
+            startActivityForResult(intent, ACTIVITY2);
         }
     }
 }

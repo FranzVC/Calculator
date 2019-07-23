@@ -12,47 +12,52 @@
 
     <Switch
         android:id="@+id/switch_mode"
-        android:layout_width="103dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="11dp"
-        android:layout_marginLeft="11dp"
+        android:layout_width="@dimen/switchWidth"
+        android:layout_height="@dimen/switchHeight"
+        android:layout_marginStart="@dimen/labelMarginLeft"
+        android:layout_marginLeft="@dimen/labelMarginLeft"
         android:layout_marginTop="8dp"
         android:checked="false"
         android:gravity="center_vertical"
+        android:onClick="switch_mode"
         android:text="@string/modeBasic"
         android:textAlignment="center"
         android:textColor="@color/colorWhite"
         android:textColorHint="@color/colorWhite"
         android:textOff="@string/modeAdvanced"
         android:textOn="@string/modeBasic"
-        android:textSize="12sp"
+        android:textSize="@dimen/switchTextSize"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/label_values"
         android:layout_width="match_parent"
-        android:layout_height="115dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_height="@dimen/labelValuesHeight"
+        android:layout_marginLeft="@dimen/labelMarginLeft"
+        android:layout_marginRight="@dimen/labelMarginRight"
         android:gravity="end"
         android:text="@string/nullValue"
         android:textAlignment="textEnd"
         android:textColor="@color/colorWhite"
-        android:textSize="40sp" />
+        android:textSize="@dimen/valuesTextSize"
+        android:layout_marginStart="@dimen/labelMarginLeft"
+        android:layout_marginEnd="@dimen/labelMarginRight" />
 
     <TextView
         android:id="@+id/label_result"
         style="@style/Widget.AppCompat.TextView.SpinnerItem"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_height="@dimen/labelResultHeight"
+        android:layout_marginLeft="@dimen/labelMarginLeft"
+        android:layout_marginRight="@dimen/labelMarginRight"
         android:gravity="end"
         android:text="@string/nullValue"
         android:textAlignment="textEnd"
         android:textColor="@color/colorWhite"
-        android:textSize="30sp" />
+        android:textSize="@dimen/resultTextSize"
+        android:layout_marginStart="@dimen/labelMarginLeft"
+        android:layout_marginEnd="@dimen/labelMarginRight" />
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/grid_buttons"
@@ -70,8 +75,9 @@
         <Button
             android:id="@+id/btn_point"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/btnHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_point"
             android:text="@string/point"
             android:textSize="25sp"
             app:layout_column="0"
@@ -80,18 +86,20 @@
         <Button
             android:id="@+id/btn_numberOne"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/btnHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_number1"
             android:text="@string/numberOne"
             android:textSize="25sp"
             app:layout_column="0"
-            app:layout_row="2" />
+            app:layout_row="1" />
 
         <Button
             android:id="@+id/btn_numberTwo"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/btnHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_number2"
             android:text="@string/numberTwo"
             android:textSize="25sp"
             app:layout_column="1"
@@ -100,8 +108,9 @@
         <Button
             android:id="@+id/btn_numberThree"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/btnHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_number3"
             android:text="@string/numberThree"
             android:textSize="25sp"
             app:layout_column="2"
@@ -110,8 +119,9 @@
         <Button
             android:id="@+id/btn_subtraction"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/btnHeight"
             android:background="@color/colorAccent"
+            android:onClick="btn_less"
             android:text="@string/less"
             android:textSize="25sp"
             app:layout_column="3"
@@ -120,18 +130,20 @@
         <Button
             android:id="@+id/btn_numberFour"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/btnHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_number4"
             android:text="@string/numberFour"
             android:textSize="25sp"
             app:layout_column="0"
-            app:layout_row="1" />
+            app:layout_row="2" />
 
         <Button
             android:id="@+id/btn_numberFive"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/btnHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_number5"
             android:text="@string/numberFive"
             android:textSize="25sp"
             app:layout_column="1"
@@ -140,8 +152,9 @@
         <Button
             android:id="@+id/btn_numberSix"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/btnHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_number6"
             android:text="@string/numberSix"
             android:textSize="25sp"
             app:layout_column="2"
@@ -150,8 +163,9 @@
         <Button
             android:id="@+id/btn_division"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/btnHeight"
             android:background="@color/colorAccent"
+            android:onClick="btn_division"
             android:text="@string/division"
             android:textSize="25sp"
             app:layout_column="3"
@@ -160,8 +174,9 @@
         <Button
             android:id="@+id/btn_numberSeven"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/btnHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_number7"
             android:text="@string/numberSeven"
             android:textSize="25sp"
             app:layout_column="0"
@@ -170,8 +185,9 @@
         <Button
             android:id="@+id/btn_numberEight"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/btnHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_number8"
             android:text="@string/numberEight"
             android:textSize="25sp"
             app:layout_column="1"
@@ -180,8 +196,9 @@
         <Button
             android:id="@+id/btn_numberNine"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/btnHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_number9"
             android:text="@string/numberNine"
             android:textSize="25sp"
             app:layout_column="2"
@@ -190,8 +207,9 @@
         <Button
             android:id="@+id/btn_multiplication"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/btnHeight"
             android:background="@color/colorAccent"
+            android:onClick="btn_multiply"
             android:text="@string/multiplication"
             android:textSize="25sp"
             app:layout_column="3"
@@ -200,7 +218,7 @@
         <Button
             android:id="@+id/btn_equals"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/btnHeight"
             android:background="@color/cardview_light_background"
             android:text="@string/equals"
             android:textSize="25sp"
@@ -210,8 +228,9 @@
         <Button
             android:id="@+id/btn_addition"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/btnHeight"
             android:background="@color/colorAccent"
+            android:onClick="btn_plus"
             android:text="@string/plus"
             android:textSize="25sp"
             app:layout_column="3"
@@ -220,8 +239,9 @@
         <Button
             android:id="@+id/btn_numberZero"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/btnHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_number0"
             android:text="@string/numberZero"
             android:textSize="25sp"
             app:layout_column="1"
@@ -230,8 +250,9 @@
         <Button
             android:id="@+id/btn_erase"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/btnHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_eraseAll"
             android:text="@string/erase"
             android:textSize="25sp"
             app:layout_column="2"
@@ -240,8 +261,9 @@
         <Button
             android:id="@+id/btn_eraseAll"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/btnHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_erase"
             android:text="@string/eraseAll"
             android:textSize="25sp"
             app:layout_column="3"
@@ -250,8 +272,9 @@
         <Button
             android:id="@+id/btn_parenthesisClose"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/btnHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_parenthesisClose"
             android:text="@string/parenthesisClose"
             android:textSize="25sp"
             app:layout_column="1"
@@ -260,8 +283,9 @@
         <Button
             android:id="@+id/btn_parenthesisOpen"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="@dimen/btnHeight"
             android:background="@color/colorPrimary"
+            android:onClick="btn_parenthesisOpen"
             android:text="@string/parenthesisOpen"
             android:textSize="25sp"
             app:layout_column="0"

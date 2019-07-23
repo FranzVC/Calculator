@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="textSize">25sp</dimen>
+
+    <dimen name="switchTextSize">12sp</dimen>
+    <dimen name="switchWidth">103dp</dimen>
+    <dimen name="switchHeight">28dp</dimen>
+
+    <dimen name="btnHeight">64dp</dimen>
+    <dimen name="btnAdvHeight">52dp</dimen>
+
+    <dimen name="labelValuesHeight">115dp</dimen>
+    <dimen name="valuesTextSize">40sp</dimen>
+
+    <dimen name="labelResultHeight">80dp</dimen>
+    <dimen name="labelAdvResultHeight">84dp</dimen>
+    <dimen name="resultTextSize">30sp</dimen>
+
+    <dimen name="labelMarginLeft">8dp</dimen>
+    <dimen name="labelMarginRight">8dp</dimen>
+</resources>
