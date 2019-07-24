@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        final Utility u = Utility.getInstance();
+        final Utility util = Utility.getInstance();
         final Calculator calculator = new Calculator();
 
         label_values = findViewById(R.id.label_values);
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 result = "";
                 if (!values.isEmpty()) {
-                    values = u.prepareExpression(values);
+                    values = util.prepareExpression(values);
                     if (values.contains(syntaxError)) {
                         values = "";
                         label_values.setText(values);

@@ -6,17 +6,17 @@ import android.os.Bundle;
 import com.calculator.utilities.Utility;
 
 class Calculator {
-    private Utility u = Utility.getInstance();
+    private Utility util = Utility.getInstance();
     String calc(String expression) {
-        expression = u.prepareExpression(expression);
+        expression = util.prepareExpression(expression);
         int pos = 0;
 
-        if (u.isValidExpression(expression, "(")) {
-            pos = u.getPosition(expression, "(");
+        if (util.isValidExpression(expression, "(")) {
+            pos = util.getPosition(expression, "(");
             if (pos == 0 || (expression.charAt(pos - 1) == '*' && pos - 1 > 0)) {
 
-                String subExp = u.extractExpressionFromBraces(expression, pos);
-                if (subExp.equals(u.syntaxError))
+                String subExp = util.extractExpressionFromBraces(expression, pos);
+                if (subExp.equals(util.syntaxError))
                     return subExp;
                 expression = expression.replace("(" + subExp + ")", calc(subExp));
             } else {
@@ -25,11 +25,11 @@ class Calculator {
             }
             return calc(expression);
 
-        } else if (u.isValidExpression(expression, "sin")) {
-            pos = u.getPosition(expression, "sin");
+        } else if (util.isValidExpression(expression, "sin")) {
+            pos = util.getPosition(expression, "sin");
             if (pos == 0 || (expression.charAt(pos - 1) == '*' && pos - 1 > 0)) {
                 pos += 2;
-                String number = u.extractNumber(expression, pos, u.RIGHT_DIRECTION);
+                String number = util.extractNumber(expression, pos, util.RIGHT_DIRECTION);
                 expression = expression.replace("sin" + number,
                         Double.toString(Math.sin(Double.parseDouble(number))));
             } else {
@@ -38,12 +38,12 @@ class Calculator {
             }
             return calc(expression);
 
-        } else if (u.isValidExpression(expression, "cos")) {
-            pos = u.getPosition(expression, "cos");
+        } else if (util.isValidExpression(expression, "cos")) {
+            pos = util.getPosition(expression, "cos");
             if (pos == 0 || (expression.charAt(pos - 1) == '*' && pos - 1 > 0)) {
                 pos += 2;
 
-                String number = u.extractNumber(expression, pos, u.RIGHT_DIRECTION);
+                String number = util.extractNumber(expression, pos, util.RIGHT_DIRECTION);
                 expression = expression.replace("cos" + number,
                         Double.toString(Math.cos(Double.parseDouble(number))));
             } else {
@@ -52,13 +52,13 @@ class Calculator {
             }
             return calc(expression);
 
-        } else if (u.isValidExpression(expression, "exp")) {
-            pos = u.getPosition(expression, "exp");
+        } else if (util.isValidExpression(expression, "exp")) {
+            pos = util.getPosition(expression, "exp");
             if(pos == 0 || (expression.charAt(pos-1) == '*' && pos-1>0)) {
 
                 pos += 2;
 
-                String number = u.extractNumber(expression, pos, u.RIGHT_DIRECTION);
+                String number = util.extractNumber(expression, pos, util.RIGHT_DIRECTION);
                 expression = expression.replace("exp" + number,
                         Double.toString(Math.exp(Double.parseDouble(number))));
             }
@@ -79,10 +79,10 @@ class Calculator {
 
             char divider = expression.charAt(pos);
 
-            String leftNum = u.extractNumber(expression, pos, u.LEFT_DIRECTION);
-            String rightNum = u.extractNumber(expression, pos, u.RIGHT_DIRECTION);
-            if (leftNum.equals(String.valueOf(u.syntaxError)) || rightNum.equals(String.valueOf(u.syntaxError))) {
-                return String.valueOf(u.syntaxError);
+            String leftNum = util.extractNumber(expression, pos, util.LEFT_DIRECTION);
+            String rightNum = util.extractNumber(expression, pos, util.RIGHT_DIRECTION);
+            if (leftNum.equals(String.valueOf(util.syntaxError)) || rightNum.equals(String.valueOf(util.syntaxError))) {
+                return String.valueOf(util.syntaxError);
             }
 
             expression = expression.replace(leftNum + divider + rightNum,
@@ -96,16 +96,16 @@ class Calculator {
             char divider = expression.charAt(pos);
 
             if (expression.charAt(0) == '-') {
-                String numberLeft = u.extractNumber(expression, 0, u.RIGHT_DIRECTION);
+                String numberLeft = util.extractNumber(expression, 0, util.RIGHT_DIRECTION);
                 int operatorPosition = numberLeft.length() + 1;
-                String numberRight = u.extractNumber(expression, operatorPosition, u.RIGHT_DIRECTION);
+                String numberRight = util.extractNumber(expression, operatorPosition, util.RIGHT_DIRECTION);
                 char operation = expression.charAt(operatorPosition);
 
                 expression = expression.replace("-" + numberLeft + operation + numberRight,
                         addition(expression, operatorPosition, numberLeft, numberRight));
             } else {
-                String leftNum = u.extractNumber(expression, pos, u.LEFT_DIRECTION);
-                String rightNum = u.extractNumber(expression, pos, u.RIGHT_DIRECTION);
+                String leftNum = util.extractNumber(expression, pos, util.LEFT_DIRECTION);
+                String rightNum = util.extractNumber(expression, pos, util.RIGHT_DIRECTION);
                 expression = expression.replace(leftNum + divider + rightNum,
                         calcShortExpr(leftNum, rightNum, divider));
             }
@@ -115,16 +115,16 @@ class Calculator {
             char divider = expression.charAt(pos);
 
             if (expression.charAt(0) == '-') {
-                String numberLeft = u.extractNumber(expression, 0, u.RIGHT_DIRECTION);
+                String numberLeft = util.extractNumber(expression, 0, util.RIGHT_DIRECTION);
                 int operatorPosition = numberLeft.length() + 1;
-                String numberRight = u.extractNumber(expression, operatorPosition, u.RIGHT_DIRECTION);
+                String numberRight = util.extractNumber(expression, operatorPosition, util.RIGHT_DIRECTION);
                 char operation = expression.charAt(operatorPosition);
 
                 expression = expression.replace("-" + numberLeft + operation + numberRight,
                         addition(expression, operatorPosition, numberLeft, numberRight));
             } else {
-                String leftNum = u.extractNumber(expression, pos, u.LEFT_DIRECTION);
-                String rightNum = u.extractNumber(expression, pos, u.RIGHT_DIRECTION);
+                String leftNum = util.extractNumber(expression, pos, util.LEFT_DIRECTION);
+                String rightNum = util.extractNumber(expression, pos, util.RIGHT_DIRECTION);
                 expression = expression.replace(leftNum + divider + rightNum,
                         calcShortExpr(leftNum, rightNum, divider));
             }
